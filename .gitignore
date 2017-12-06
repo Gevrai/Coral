@@ -1,0 +1,39 @@
+# Assets
+*Assets/
+
+# Project Build and Output
+*.build/
+Releases/
+Output/
+
+# Visual Studio User and build files
+*.user
+*.vs/
+
+# https://github.com/github/gitignore/ cpp gitignore boilerplate
+# Prerequisites
+*.d
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+# Precompiled Headers
+*.gch
+*.pch
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+# Fortran module files
+*.mod
+*.smod
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+# Executables
+*.exe
+*.out
+*.app
