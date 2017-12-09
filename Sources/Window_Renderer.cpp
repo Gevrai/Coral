@@ -10,9 +10,9 @@ Window::Renderer::Renderer(SDL_Window* window)
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 }
 
-Color* Window::Renderer::GetColor()
+RGBA* Window::Renderer::GetRGBA()
 {
-	Color* color = new Color();
+	RGBA* color = new RGBA();
 	if (SDL_GetRenderDrawColor(renderer, &color->r, &color->g, &color->b, &color->a) < 0)
 	{
 		return nullptr;
@@ -20,7 +20,7 @@ Color* Window::Renderer::GetColor()
 	return color;
 }
 
-bool Window::Renderer::SetColor(Color* color)
+bool Window::Renderer::SetRGBA(RGBA* color)
 {
 	if( SDL_GetRenderDrawColor(renderer, &color->r, &color->g, &color->b, &color->a) < 0)
 	{

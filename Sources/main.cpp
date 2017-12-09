@@ -14,7 +14,6 @@ int main(int argc, char* args[])
 	__debugbreak();
 
 	Window* window = new Window("Test", 800, 600);
-	window->surface->Fill(colormap->GetPixel(new Point(10, 10)));
 
 	__debugbreak();
 
@@ -30,6 +29,6 @@ int main(int argc, char* args[])
 
 	__debugbreak();
 
-	window->Draw();
+
 	return VoxelSpace.MainLoop();
 }

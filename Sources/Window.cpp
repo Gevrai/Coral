@@ -2,10 +2,12 @@
 
 bool Window::_Create(const char* title, int x, int y, int w, int h, Uint32 flags)
 {
+	rect = new Rect(0, 0, w, h);
 	window = SDL_CreateWindow(title, x, y, w, h, flags);
 	if (window)
 	{
-		surface = new Surface(SDL_GetWindowSurface(window));
+		// Disallowed with the renderer :(
+		//surface = new Surface(SDL_GetWindowSurface(window)); 
 		renderer = new Renderer(window);
 		return true;
 	}
@@ -53,9 +55,9 @@ Window::~Window()
 	_Destroy();
 }
 
-bool Window::Draw()
+/*bool Window::UpdateSurface()
 {
 	if (SDL_UpdateWindowSurface(window) < 0)
 		return false;
 	return true;
-}
+}*/

@@ -5,7 +5,7 @@
 #include "Surface.h"
 #include "Point.h"
 #include "Rect.h"
-#include "Color.h"
+#include "RGBA.h"
 
 class Window
 {
@@ -21,11 +21,12 @@ private:
 	{
 	private:
 		SDL_Renderer* renderer;
+
 	public:
 		Renderer();
 		Renderer(SDL_Window* window);
-		Color* GetColor();
-		bool SetColor(Color* color);
+		RGBA* GetRGBA();
+		bool SetRGBA(RGBA* color);
 		SDL_BlendMode GetBlendMode();
 		bool SetBlendMode(SDL_BlendMode mode);
 		~Renderer();
@@ -35,9 +36,7 @@ private:
 	};
 
 public:
-	
-
-	Surface* surface =nullptr;
+	Rect* rect;
 	Renderer* renderer =nullptr;
 
 	Window();
@@ -47,6 +46,6 @@ public:
 	Window(const char* title, Point* point, Uint32 flags = SDL_WINDOW_SHOWN);
 	~Window();
 	
-	bool Draw();
+	//bool Draw();
 };
 

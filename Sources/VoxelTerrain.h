@@ -5,6 +5,7 @@
 #include "Surface.h"
 #include "Rect.h"
 #include "Camera.h"
+#include "Window.h"
 
 class VoxelTerrain
 {
@@ -19,5 +20,5 @@ public:
 	VoxelTerrain(Surface* heightmap, Surface* colormap);
 	~VoxelTerrain();
 
-	Surface* Render(Surface* surface, Camera* camera);
+	bool Render(Window* window, Camera* camera);
 };

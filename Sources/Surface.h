@@ -4,6 +4,7 @@
 
 #include "Point.h"
 #include "Rect.h"
+#include "RGBA.h"
 
 class Surface
 {
@@ -28,30 +29,23 @@ public:
 	Surface(const char* path);
 	~Surface();
 
-	Uint32 operator()(int x,int y);
-	Uint32 operator()(Point* p);
+	RGBA* operator()(int x,int y);
+	RGBA* operator()(Point* p);
 
 	operator SDL_Surface*();
 
-	bool Fill(Uint8 r, Uint8 g, Uint8 b);
-	bool Fill(Uint32 pixel);
-	bool FillRect(Rect rect, Uint8 r, Uint8 g, Uint8 b);
-	bool FillRect(Rect rect, Uint32 pixel);
+	bool Fill(RGBA* pixel);
+	bool FillRect(Rect* rect, RGBA* pixel);
 
 	bool Blit(Surface* surface, Rect* src, Rect* dst);
 	bool Blit(Surface* surface);
 
-	bool DrawVerticalLine(int x, int ytop, int ybottom, Uint32 color);
-
 	Rect* GetRect();
-
-	int GetValue(int x, int y);
-	int GetValue(Point* p);
 
 	bool Save(const char* path);
 	bool Load(const char* path);
 	
-	Uint32 GetPixel(int x, int y);
-	Uint32 GetPixel(Point* p);
+	RGBA* GetRGBA(int x, int y);
+	RGBA* GetRGBA(Point* p);
 };
 

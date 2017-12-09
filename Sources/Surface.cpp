@@ -9,8 +9,6 @@ Surface::Surface()
 
 Surface::Surface(SDL_Surface* psurface)
 {
-	//#TODO Copying the whole thing SDL_ConvertSurface.. works for now
-	//surface = SDL_ConvertSurface(s, s->format, SDL_SWSURFACE);
 	surface = psurface;
 }
 
@@ -36,15 +34,15 @@ Surface::~Surface()
 	
 }
 
-Uint32 Surface::operator()(int x, int y)
+RGBA* Surface::operator()(int x, int y)
 {
-	return GetPixel(x, y);
+	return GetRGBA(x, y);
 }
 
 //#TODO find a way to refererence main overloaded operator from an overloaded overloaded operator MkAY?
-Uint32 Surface::operator()(Point* p)
+RGBA* Surface::operator()(Point* p)
 {
-	return GetPixel(p->x, p->y);
+	return GetRGBA(p->x, p->y);
 }
 
 Surface::operator SDL_Surface*()
@@ -52,28 +50,16 @@ Surface::operator SDL_Surface*()
 	return surface;
 }
 
-bool Surface::Fill(Uint8 r, Uint8 g, Uint8 b)
+bool Surface::Fill(RGBA* color)
 {
-	return Fill(SDL_MapRGB(surface->format, r, g, b));
+	return FillRect(GetRect(), color);
 }
 
-bool Surface::Fill(Uint32 pixel)
+bool Surface::FillRect(Rect* rect, RGBA* color)
 {
-	if (SDL_FillRect(surface, NULL, pixel) < 0)
+	if (SDL_FillRect(surface, *rect, SDL_MapRGB(surface->format, color->r, color->g, color->b)) < 0)
 		return false;
 	return true;
-}
-
-bool Surface::FillRect(Rect rect, Uint32 pixel)
-{
-	if (SDL_FillRect(surface, rect, pixel) < 0)
-		return false;
-	return true;
-}
-
-bool Surface::FillRect(Rect rect, Uint8 r, Uint8 g, Uint8 b)
-{
-	return FillRect(rect,SDL_MapRGB(surface->format, r, g, b));
 }
 
 bool Surface::Blit(Surface* s, Rect* src, Rect* dst)
@@ -85,7 +71,7 @@ bool Surface::Blit(Surface* s, Rect* src, Rect* dst)
 	return true;
 }
 
-// Maybe temporary
+// Maybe temporarily
 bool Surface::Blit(Surface* s)
 {
 	if (SDL_BlitSurface(*s, NULL, surface, NULL) < 0)
@@ -98,25 +84,6 @@ bool Surface::Blit(Surface* s)
 Rect* Surface::GetRect()
 {
 	return new Rect(&surface->clip_rect);
-}
-
-int Surface::GetValue(int x,int y)
-{
-//	__debugbreak();
-	Uint32 pixel = GetPixel(x, y);
-
-	int r = pixel >> 16 && 0xFF;
-	int g = pixel >> 8 && 0xFF;
-	int b = pixel && 0xFF;
-
-//	__debugbreak();
-
-	return r + g + b / 3;
-}
-
-int Surface::GetValue(Point* p)
-{
-	return GetValue(p->x, p->y);
 }
 
 bool Surface::Save(const char* path)
@@ -136,9 +103,11 @@ bool Surface::Load(const char * path)
 	return false;
 }
 
-Uint32 Surface::GetPixel(int x, int y)
+RGBA* Surface::GetRGBA(int x, int y)
 {
-	Uint32 pixel;
+	Uint32 pixel = 0;
+	Uint8 r, g, b, a = 0;
+	RGBA* color = nullptr;
 	
 	// Hard Clipping
 	/*Rect rect = Rect(0, 0, surface->w, surface->h);
@@ -157,13 +126,15 @@ Uint32 Surface::GetPixel(int x, int y)
 	pixel = _GetPixel(x, y);
 
 	_Unlock();
+	SDL_GetRGBA(pixel, surface->format, &r, &g, &b, &a);
+	color = new RGBA(r, g, b, a);
 
-	return pixel;
+	return color;
 }
 
-Uint32 Surface::GetPixel(Point* p)
+RGBA* Surface::GetRGBA(Point* p)
 {
-	return GetPixel(p->x,p->y);
+	return GetRGBA(p->x,p->y);
 }
 
 bool Surface::_Create(int w, int h)
