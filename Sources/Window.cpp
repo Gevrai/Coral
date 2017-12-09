@@ -6,12 +6,13 @@ bool Window::_Create(const char* title, int x, int y, int w, int h, Uint32 flags
 	if (window)
 	{
 		surface = new Surface(SDL_GetWindowSurface(window));
+		renderer = new Renderer(window);
 		return true;
 	}
 	return false;
 }
 
-bool Window::_Create(const char * title, int w, int h, Uint32 flags)
+bool Window::_Create(const char* title, int w, int h, Uint32 flags)
 {
 	return _Create(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, w, h, flags);
 }

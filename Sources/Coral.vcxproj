@@ -70,21 +70,21 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\SDL2\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\SDL2\include;$(IncludePath);$(VC_SourcePath);</IncludePath>
     <OutDir>$(SolutionDir)\Output\VC\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>C:\SDL2\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\SDL2\include;$(IncludePath);$(VC_SourcePath);</IncludePath>
     <OutDir>$(SolutionDir)$\Output\VC\(Configuration)\</OutDir>
     <IntDir>.Build\VC\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\SDL2\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\SDL2\include;$(IncludePath);$(VC_SourcePath);</IncludePath>
     <OutDir>$(SolutionDir)\Output\VC\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>.Build\VC\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\SDL2\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\SDL2\include;$(IncludePath);$(VC_SourcePath);</IncludePath>
     <OutDir>$(SolutionDir)\Output\VC\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>.Build\VC\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
@@ -148,20 +148,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Color.cpp" />
     <ClCompile Include="Events.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="Rect.cpp" />
-    <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Window_Renderer.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="Surface.cpp" />
     <ClCompile Include="VoxelTerrain.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Color.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="Renderer.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Surface.h" />
