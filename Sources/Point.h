@@ -11,14 +11,14 @@ public:
 	Point(int x, int y);
 	~Point();
 
-	Point operator +(Point);
+	Point operator +(Point*);
 	Point operator +(int);
-	Point operator -(Point);
+	Point operator -(Point*);
 	Point operator -(int);
-	Point operator /(Point);
+	Point operator /(Point*);
 	Point operator /(int);
-	Point operator *(Point);
+	Point operator *(Point*);
 	Point operator *(int);
 
-	operator SDL_Point();
+	operator SDL_Point*();
 };

@@ -16,15 +16,17 @@ private:
 	void _Destroy();
 	
 public:
-	Surface surface;
+	Surface* surface;
 
 	Window();
 	Window(const char* title, int x, int y, int w, int h, Uint32 flags = SDL_WINDOW_SHOWN);
-	Window(const char* title, Rect rect, Uint32 flags = SDL_WINDOW_SHOWN);
+	Window(const char* title, Rect* rect, Uint32 flags = SDL_WINDOW_SHOWN);
 	Window(const char* title, int w, int h, Uint32 flags = SDL_WINDOW_SHOWN);
-	Window(const char* title, Point point, Uint32 flags = SDL_WINDOW_SHOWN);
+	Window(const char* title, Point* point, Uint32 flags = SDL_WINDOW_SHOWN);
 	~Window();
 	
 	bool Draw();
+
+
 };
 

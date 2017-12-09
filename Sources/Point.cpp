@@ -14,9 +14,9 @@ Point::~Point()
 {
 }
 
-Point Point::operator+(Point p)
+Point Point::operator+(Point* p)
 {
-	return Point(x+p.x,y+p.y);
+	return Point(x+p->x,y+p->y);
 }
 
 Point Point::operator+(int n)
@@ -24,9 +24,9 @@ Point Point::operator+(int n)
 	return Point(x+n,y+n);
 }
 
-Point Point::operator-(Point p)
+Point Point::operator-(Point* p)
 {
-	return Point(x-p.x,y-p.y);
+	return Point(x-p->x,y-p->y);
 }
 
 Point Point::operator-(int n)
@@ -34,9 +34,9 @@ Point Point::operator-(int n)
 	return Point(x-n,y-n);
 }
 
-Point Point::operator/(Point p)
+Point Point::operator/(Point* p)
 {
-	return Point(x/p.x,y/p.y);
+	return Point(x/p->x,y/p->y);
 }
 
 Point Point::operator/(int n)
@@ -44,9 +44,9 @@ Point Point::operator/(int n)
 	return Point(x / n, y / n);
 }
 
-Point Point::operator*(Point p)
+Point Point::operator*(Point* p)
 {
-	return Point(x * p.x, y * p.y);
+	return Point(x * p->x, y * p->y);
 }
 
 Point Point::operator*(int n)
@@ -54,10 +54,10 @@ Point Point::operator*(int n)
 	return Point(x * n, y * n);
 }
 
-Point::operator SDL_Point()
+Point::operator SDL_Point*()
 {
-	SDL_Point point = {};
-	point.x = x;
-	point.y = y;
+	SDL_Point* point = new SDL_Point();
+	point->x = x;
+	point->y = y;
 	return point;
 }

@@ -12,20 +12,20 @@ Rect::Rect(int nx, int ny, int nw, int nh)
 	h = nh;
 }
 
-Rect::Rect(SDL_Rect rect)
+Rect::Rect(SDL_Rect* rect)
 {
-	x = rect.x;
-	y = rect.y;
-	w = rect.w;
-	h = rect.h;
+	x = rect->x;
+	y = rect->y;
+	w = rect->w;
+	h = rect->h;
 }
 
-Rect::Rect(Point top, Point bottom)
+Rect::Rect(Point* top, Point* bottom)
 {
-	x = top.x;
-	y = top.y;
-	w = bottom.x;
-	h = bottom.y;
+	x = top->x;
+	y = top->y;
+	w = bottom->x;
+	h = bottom->y;
 }
 
 Rect::~Rect()
@@ -42,15 +42,15 @@ Rect::operator SDL_Rect*()
 	return rect;
 }
 
-bool Rect::Collide(Rect r)
+bool Rect::Collide(Rect* r)
 {
-	return Collide(Point(x, y)) && Collide(Point(w, h));
+	return Collide(new Point(x, y)) && Collide(new Point(w, h));
 }
 
-bool Rect::Collide(Point p)
+bool Rect::Collide(Point* p)
 {
-	if ((p.x > x) && (p.x < x + w))
-		if ((p.x > x) && (p.x < x + w))
+	if ((p->x > x) && (p->x < x + w))
+		if ((p->x > x) && (p->x < x + w))
 			return true;
 	return false;
 }

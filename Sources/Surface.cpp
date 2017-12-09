@@ -19,9 +19,9 @@ Surface::Surface(int w, int h)
 	_Create(w, h);
 }
 
-Surface::Surface(Rect rect)
+Surface::Surface(Rect* rect)
 {
-	_Create(rect.w, rect.h);
+	_Create(rect->w, rect->h);
 }
 
 Surface::Surface(const char * path)
@@ -42,9 +42,9 @@ Uint32 Surface::operator()(int x, int y)
 }
 
 //#TODO find a way to refererence main overloaded operator from an overloaded overloaded operator MkAY?
-Uint32 Surface::operator()(Point p)
+Uint32 Surface::operator()(Point* p)
 {
-	return GetPixel(p.x, p.y);
+	return GetPixel(p->x, p->y);
 }
 
 Surface::operator SDL_Surface*()
@@ -76,20 +76,28 @@ bool Surface::FillRect(Rect rect, Uint8 r, Uint8 g, Uint8 b)
 	return FillRect(rect,SDL_MapRGB(surface->format, r, g, b));
 }
 
-bool Surface::Blit(Surface s, Rect src, Rect dst)
+bool Surface::Blit(Surface* s, Rect* src, Rect* dst)
 {
-	SDL_BlitSurface(s, src, surface, dst);
-	return false;
+	if (SDL_BlitSurface(*s, *src, surface, *dst) < 0)
+	{
+		return false;
+	}
+	return true;
 }
 
-bool Surface::DrawVerticalLine(int x, int ytop, int ybottom, Uint32 color)
+// Maybe temporary
+bool Surface::Blit(Surface* s)
 {
-	return FillRect(Rect(x, ytop, x, ybottom), color);
+	if (SDL_BlitSurface(*s, NULL, surface, NULL) < 0)
+	{
+		return false;
+	}
+	return true;
 }
 
-Rect Surface::GetRect()
+Rect* Surface::GetRect()
 {
-	return Rect(surface->clip_rect);
+	return new Rect(&surface->clip_rect);
 }
 
 int Surface::GetValue(int x,int y)
@@ -106,13 +114,14 @@ int Surface::GetValue(int x,int y)
 	return r + g + b / 3;
 }
 
-int Surface::GetValue(Point p)
+int Surface::GetValue(Point* p)
 {
-	return GetValue(p.x, p.y);
+	return GetValue(p->x, p->y);
 }
 
 bool Surface::Save(const char* path)
 {
+	// #TODO Update to SDL_Image
 	if (SDL_SaveBMP(surface, path) < 0)
 		return false;
 	return true;
@@ -120,6 +129,7 @@ bool Surface::Save(const char* path)
 
 bool Surface::Load(const char * path)
 {
+	// #TODO Update to SDL_Image
 	surface = SDL_LoadBMP(path);
 	if (surface)
 		return true;
@@ -141,8 +151,6 @@ Uint32 Surface::GetPixel(int x, int y)
 	if (y < 0) y = -y % surface->h;
 	else y %= surface->h;
 
-//	__debugbreak();
-
 	// THREAD SAFETY
 	_Lock();
 
@@ -153,9 +161,9 @@ Uint32 Surface::GetPixel(int x, int y)
 	return pixel;
 }
 
-Uint32 Surface::GetPixel(Point p)
+Uint32 Surface::GetPixel(Point* p)
 {
-	return GetPixel(p.x,p.y);
+	return GetPixel(p->x,p->y);
 }
 
 bool Surface::_Create(int w, int h)

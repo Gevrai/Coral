@@ -28,8 +28,8 @@ VoxelTerrain::~VoxelTerrain()
 	_Destroy();
 }
 
-/*
-Surface VoxelVoxelTerrain::Render(Surface surface, Point p, int height, int horizon, int scale_height, int distance)
+
+/*Surface* VoxelTerrain::Render(Surface surface, Point p, int height, int horizon, int scale_height, int distance)
 {
 	//#TODO clean this
 	int screen_width = surface.GetWidth();
@@ -64,21 +64,22 @@ Surface VoxelVoxelTerrain::Render(Surface surface, Point p, int height, int hori
 		}
 	}
 	return surface;
-}*/
+}
 
-bool VoxelTerrain::Render(Surface surface, Camera camera)
+Surface* VoxelTerrain::Render(Surface* s, Camera* camera)
 {
-	Rect period = colormap->GetRect();
-	Rect screen = surface.GetRect();
-	period.w -= 1;
-	period.h -= 1;
+	Surface* surface = new Surface(s->GetRect());
+	Rect* period = colormap->GetRect();
+	Rect* screen = s->GetRect();
+	period->w -= 1;
+	period->h -= 1;
 
-	float sinang = sin(camera.angle);
-	float cosang =(camera.angle);
+	float sinang = sin(camera->angle);
+	float cosang =(camera->angle);
 
-	int *hiddeny = new int[screen.w];
-	for (int i = 0; i<screen.w; i++)
-		hiddeny[i] = screen.h;
+	int *hiddeny = new int[screen->w];
+	for (int i = 0; i<screen->w; i++)
+		hiddeny[i] = screen->h;
 	
 	float plx, ply, prx, pry = 0;
 	float dx, dy = 0;
@@ -87,7 +88,7 @@ bool VoxelTerrain::Render(Surface surface, Camera camera)
 	float invz, heightonscreen = NULL;
 
 	// Draw from front to back
-	for (int z = 1; z<camera.distance; z += dz)
+	for (int z = 1; z<camera->distance; z += dz)
 	{
 		// 90 degree field of view
 		plx = -cosang * z - sinang * z;
@@ -95,21 +96,25 @@ bool VoxelTerrain::Render(Surface surface, Camera camera)
 		prx = cosang * z - sinang * z;
 		pry = -sinang * z - cosang * z;
 
-		dx = (prx - plx) / screen.w;
-		dy = (pry - ply) / screen.w;
-		plx += camera.pos.x;
-		ply += camera.pos.y;
+		dx = (prx - plx) / screen->w;
+		dy = (pry - ply) / screen->w;
+		plx += camera->pos->x;
+		ply += camera->pos->y;
 		invz = 1. / z * 240.;
-		for (int i = 0; i<screen.w; i = i + 1)
+		for (int i = 0; i<screen->w; i = i + 1)
 		{
-			Point offset = Point((int)ply & period.w, (int)plx & period.h);
-			heightonscreen = (camera.height - heightmap->GetValue(offset) * invz + camera.horizon);
-			surface.DrawVerticalLine(i, heightonscreen, hiddeny[i], colormap->GetPixel(offset));
+			Point* offset = new Point((int)ply & period->w, (int)plx & period->h);
+			heightonscreen = (camera->height - heightmap->GetValue(offset) * invz + camera->horizon);
+			surface->DrawVerticalLine(i, heightonscreen, hiddeny[i], colormap->GetPixel(offset));
 			if (heightonscreen < hiddeny[i]) hiddeny[i] = heightonscreen;
 			plx += dx;
 			ply += dy;
 		}
 	}
 	dz += 0.01;
-	return true;
+	return surface;
+}*/
+
+Surface* VoxelTerrain::Render(Surface* s, Camera* camera)
+{
 }

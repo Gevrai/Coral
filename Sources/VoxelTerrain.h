@@ -19,5 +19,5 @@ public:
 	VoxelTerrain(Surface* heightmap, Surface* colormap);
 	~VoxelTerrain();
 
-	bool Render(Surface surface, Camera camera);
+	Surface* Render(Surface* surface, Camera* camera);
 };
