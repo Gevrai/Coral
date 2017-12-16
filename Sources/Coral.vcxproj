@@ -154,6 +154,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="Rect.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Window_Renderer.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="Surface.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Surface.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Rect.h" />
