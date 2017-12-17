@@ -2,12 +2,9 @@
 
 #include "stdafx.h"
 
-#include "Surface.h"
-#include "Point.h"
-#include "Rect.h"
-#include "RGBA.h"
+#include "Game.h"
 
-class Window
+class Window : public Renderer
 {
 private:
 
@@ -15,29 +12,10 @@ private:
 
 	bool _Create(const char* title, int x, int y, int w, int h, Uint32 flags = SDL_WINDOW_SHOWN);
 	bool _Create(const char* title, int w, int h, Uint32 flags = SDL_WINDOW_SHOWN);
-	void _Destroy();
-
-	class Renderer
-	{
-	private:
-		SDL_Renderer* renderer;
-
-	public:
-		Renderer();
-		Renderer(SDL_Window* window);
-		RGBA* GetRGBA();
-		bool SetRGBA(RGBA* color);
-		SDL_BlendMode GetBlendMode();
-		bool SetBlendMode(SDL_BlendMode mode);
-		~Renderer();
-
-		bool Draw(Rect* rect, bool full);
-		bool Draw(Point* point);
-	};
+	void _Destroy();	
 
 public:
 	Rect* rect;
-	Renderer* renderer =nullptr;
 
 	Window();
 	Window(const char* title, int x, int y, int w, int h, Uint32 flags = SDL_WINDOW_SHOWN);

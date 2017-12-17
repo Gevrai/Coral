@@ -6,9 +6,7 @@ bool Window::_Create(const char* title, int x, int y, int w, int h, Uint32 flags
 	window = SDL_CreateWindow(title, x, y, w, h, flags);
 	if (window)
 	{
-		// Disallowed with the renderer :(
-		//surface = new Surface(SDL_GetWindowSurface(window)); 
-		renderer = new Renderer(window);
+		renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 		return true;
 	}
 	return false;
@@ -30,14 +28,12 @@ Window::Window()
 
 Window::Window(const char * title, int x, int y, int w, int h, Uint32 flags)
 {
-
+	_Create(title, x, y, w, h, flags);
 }
 
 Window::Window(const char * title, Rect* rect, Uint32 flags)
 {
-	__debugbreak();
 	_Create(title, rect->w, rect->h, flags);
-	__debugbreak();
 }
 
 Window::Window(const char * title, int w, int h, Uint32 flags)
