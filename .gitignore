@@ -1,5 +1,19 @@
 # Assets
 *Assets/
+*.jpg
+*.jpeg
+*.gif
+*.tga
+*.png
+
+#Compresses files
+*.tar
+*.zip
+*.gz
+*.bz
+*.xz
+*.rar
+*.7z
 
 # Project Build and Output
 *.build/
@@ -7,8 +21,11 @@ Releases/
 Output/
 
 # Visual Studio User and build files
-*.user
+*.vcxproj.user
+*.vcxproj.filters
 *.vs/
+
+
 
 # https://github.com/github/gitignore/ cpp gitignore boilerplate
 # Prerequisites
