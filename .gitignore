@@ -1,11 +1,3 @@
-# Assets
-*Assets/
-*.jpg
-*.jpeg
-*.gif
-*.tga
-*.png
-
 #Compresses files
 *.tar
 *.zip
