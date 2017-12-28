@@ -81,6 +81,8 @@ void VoxelTerrain::render(WindowRenderer* renderer, Camera* camera) {
 	double fowx = camera->getFoward().x;
 	double fowy = camera->getFoward().y;
 
+	RGBA color;
+
 	int heightOnScreen, heightOnMap;
 	double resolutionDelta = 1.007;
 	int yCurrentHeight[screenwidth];
@@ -111,7 +113,8 @@ void VoxelTerrain::render(WindowRenderer* renderer, Camera* camera) {
 			if (heightOnScreen < 0)
 				heightOnScreen = 0;
 			if (heightOnScreen < yCurrentHeight[i]) {
-				renderer->DrawLine(colormapPixelAt(xl,yl), i, heightOnScreen, i, yCurrentHeight[i]);
+				color = colormapPixelAt(xl,yl);
+				renderer->DrawLine(color, i, heightOnScreen, i, yCurrentHeight[i]);
 				yCurrentHeight[i] = heightOnScreen;
 			}
 			xl += dx;
