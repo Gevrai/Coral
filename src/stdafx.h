@@ -25,3 +25,12 @@ constexpr bool VERBOSE = true;
 #define PRINT_VERBOSE(msg) { if (VERBOSE) printf(msg); }
 
 class InitializationException: public std::exception { };
+
+// KEYCODES, should probably be elsewhere...
+
+#define KEY_W 0x1A
+#define KEY_A 0x04
+#define KEY_S 0x16
+#define KEY_D 0x07
+#define KEY_E 0x08
+#define KEY_Q 0x14
