@@ -18,7 +18,7 @@ class Camera
 	Vec3D getUp() const;
 	Vec3D getFoward() const;
 
-	void moveFoward(double ammount);
-	void moveUp(double ammount);
+	void setPos(Vec3D pos);
+
 	void rotateSideways(double ammount);
 };

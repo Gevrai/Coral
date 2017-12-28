@@ -9,7 +9,7 @@ Game::~Game()
 {
 	if (windowRenderer) delete windowRenderer;
 	if (voxelTerrain)   delete voxelTerrain;
-	if (playerCamera)   delete playerCamera;
+	if (player)         delete player;
 	IMG_Quit();
 	SDL_Quit();
 }
@@ -34,13 +34,13 @@ bool Game::init()
 	// Create window renderer and terrain
 	try {
 		windowRenderer = new WindowRenderer(title, WIDTH, HEIGHT);
-		voxelTerrain = new VoxelTerrain(windowRenderer, "9.png");
-		playerCamera = new Camera(Vec3D(0,0,150), Vec3D(0,0,1), Vec3D(0,1,0));
+		voxelTerrain = new VoxelTerrain(windowRenderer, "7.png");
+		player = new Player(Vec3D(0,0,200));
 	} catch (InitializationException& e) {
 		// Abort
 		if (windowRenderer) delete windowRenderer;
 		if (voxelTerrain) delete voxelTerrain;
-		if (playerCamera) delete playerCamera;
+		if (player) delete player;
 		return false;
 	}
 	PRINT_VERBOSE("Done.\n");
@@ -66,7 +66,7 @@ void Game::quit()
 void Game::renderAll()
 {
 	windowRenderer->clear();
-	voxelTerrain->render(windowRenderer, playerCamera);
+	voxelTerrain->render(windowRenderer, player->getCamera());
 	windowRenderer->renderPresent();
 }
 
@@ -93,22 +93,45 @@ void PrintKeyInfo( SDL_KeyboardEvent *key ){
 	printf( "\n" );
 }
 
+void Game::handleEvents()
+{
+	SDL_Event event;
+	while (SDL_PollEvent(&event)) {
+		switch (event.type) {
+		case SDL_QUIT:
+			return quit();
+		case SDL_KEYDOWN:
+			switch( event.key.keysym.scancode ){
+			case KEY_W: player->startAction(FOWARD); break;
+			case KEY_A: player->startAction(TURN_LEFT); break;
+			case KEY_S: player->startAction(BACKWARD); break;
+			case KEY_D: player->startAction(TURN_RIGHT); break;
+			case KEY_E: player->startAction(UP); break;
+			case KEY_Q: player->startAction(DOWN); break;
+			default: PrintKeyInfo(&event.key); break;
+			}
+			break;
+		case SDL_KEYUP:
+			switch( event.key.keysym.scancode ){
+			case KEY_W: player->stopAction(FOWARD); break;
+			case KEY_A: player->stopAction(TURN_LEFT); break;
+			case KEY_S: player->stopAction(BACKWARD); break;
+			case KEY_D: player->stopAction(TURN_RIGHT); break;
+			case KEY_E: player->stopAction(UP); break;
+			case KEY_Q: player->stopAction(DOWN); break;
+			default: break;
+			}
+			break;
+		default:
+			break;
+		}
+	}
+}
 
 void Game::mainLoop()
 {
 	Uint32 loopStartTime;
 	Uint32 frameDuration = 1000/MAX_FPS;
-	SDL_Event event;
-
-	bool keyW, keyA, keyS, keyD, keyE, keyQ;
-	keyW=keyA=keyS=keyD=keyE=keyQ=false;
-
-	const Uint8 W = 0x1A;
-	const Uint8 A = 0x04;
-	const Uint8 S = 0x16;
-	const Uint8 D = 0x07;
-	const Uint8 E = 0x08;
-	const Uint8 Q = 0x14;
 
 	while (isRunning)
 		{
@@ -116,52 +139,16 @@ void Game::mainLoop()
 
 			loopStartTime = SDL_GetTicks();
 
-			// Simple event handler
-			while (SDL_PollEvent(&event)) {
-				switch (event.type) {
-				case SDL_QUIT:
-					return quit();
-				case SDL_KEYDOWN:
-					switch( event.key.keysym.scancode ){
-					case W: keyW = true; break;
-					case A: keyA = true; break;
-					case S: keyS = true; break;
-					case D: keyD = true; break;
-					case E: keyE = true; break;
-					case Q: keyQ = true; break;
-					default: PrintKeyInfo(&event.key); break;
-					}
-					break;
-				case SDL_KEYUP:
-					switch( event.key.keysym.scancode ){
-					case W: keyW = false; break;
-					case A: keyA = false; break;
-					case S: keyS = false; break;
-					case D: keyD = false; break;
-					case E: keyE = false; break;
-					case Q: keyQ = false; break;
-					default: break;
-					}
-					break;
-				default:
-					break;
-				}
-			}
+			handleEvents();
 
-			// Move camera
-			if(keyW) playerCamera->moveFoward(100.0 * deltaTime);
-			if(keyS) playerCamera->moveFoward(-100.0 * deltaTime);
-			if(keyA) playerCamera->rotateSideways(-1.0 * deltaTime);
-			if(keyD) playerCamera->rotateSideways(1.0 * deltaTime);
-			if(keyE) playerCamera->moveUp(100.0 * deltaTime);
-			if(keyQ) playerCamera->moveUp(-100.0 * deltaTime);
+			player->update(deltaTime);
 
 			renderAll();
 
 			// Framerate calculations
 			frameDuration = SDL_GetTicks() - loopStartTime;
 			if( frameDuration < 1000/MAX_FPS) {
-				deltaTime = 1000.0/ MAX_FPS;
+				deltaTime = 1000.0 / MAX_FPS;
 				SDL_Delay(1000/MAX_FPS - frameDuration);
 			} else {
 				deltaTime = (double) frameDuration / 1000.0;

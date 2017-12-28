@@ -4,6 +4,7 @@
 
 #include "VoxelTerrain.h"
 #include "WindowRenderer.h"
+#include "Player.h"
 
 #define MAX_FPS 60
 #define WIDTH 800
@@ -18,7 +19,7 @@ class Game
 
 	WindowRenderer* windowRenderer = nullptr;
 	VoxelTerrain* voxelTerrain = nullptr;
-	Camera* playerCamera = nullptr;
+	Player* player = nullptr;
 
  public:
 	Game(std::string title);

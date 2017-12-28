@@ -19,20 +19,10 @@ Vec3D Camera::getPos()    const { return pos; }
 Vec3D Camera::getUp()     const { return up; }
 Vec3D Camera::getFoward() const { return foward; }
 
+void Camera::setPos(Vec3D _pos) { pos = _pos; }
+
 Camera::~Camera()
 {
-}
-
-void Camera::moveFoward(double ammount) {
-	pos.x += foward.x * ammount;
-	pos.y += foward.y * ammount;
-	pos.z += foward.z * ammount;
-}
-
-void Camera::moveUp(double ammount) {
-	pos.x += up.x * ammount;
-	pos.y += up.y * ammount;
-	pos.z += up.z * ammount;
 }
 
 void Camera::rotateSideways(double ammount)
