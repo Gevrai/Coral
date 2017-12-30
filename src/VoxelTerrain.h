@@ -12,12 +12,14 @@ class VoxelTerrain
 private:
 	Uint8* heightmap = nullptr;
 	RGBA* colormap = nullptr;
+	Uint16* yCurrentHeight = nullptr;
 
 	Uint32 colormapW,colormapH, heightmapW, heightmapH;
 
-	double resolutionDelta = 1.008;
-	Uint32 drawDistance = 1500;
+	double resolutionDelta = 1.007;
+	Uint32 drawDistance = 2000;
 	double scaleHeight = 220.0;
+	double fieldOfView = 90.0;
 
 	// Resolution can be different for heightmap and colormap
 	double heightmap_scalex;

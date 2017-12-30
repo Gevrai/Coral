@@ -4,6 +4,7 @@ VoxelTerrain::VoxelTerrain(WindowRenderer* renderer, std::string mapname)
 {
 	if(!loadMap(mapname))
 		throw InitializationException();
+	yCurrentHeight = new Uint16[renderer->getWindowWidth()];
 }
 
 bool VoxelTerrain::loadMap(std::string mapname)
@@ -54,6 +55,7 @@ VoxelTerrain::~VoxelTerrain()
 {
 	delete heightmap;
 	delete colormap;
+	delete[] yCurrentHeight;
 }
 
 inline RGBA VoxelTerrain::colormapPixelAt(double x, double y) const {
@@ -71,8 +73,8 @@ inline Uint8 VoxelTerrain::heightmapPixelAt(double x, double y) const {
 void VoxelTerrain::render(WindowRenderer* renderer, const Camera* camera) const {
 
 	// Get screen width and height
-	int screenwidth = renderer->getWindowWidth();
-	int screenheight = renderer->getWindowHeight();
+	Uint16 screenwidth = renderer->getWindowWidth();
+	Uint16 screenheight = renderer->getWindowHeight();
 
 	double xl,yl,xr,yr,dx,dy;
 	double posx = camera->getPos().x;
@@ -82,19 +84,17 @@ void VoxelTerrain::render(WindowRenderer* renderer, const Camera* camera) const 
 	double fowy = camera->getFoward().y;
 
 	double horizon = camera->getFoward().z + screenheight/2;
-	horizon = 0;
 
 	RGBA color;
 
-	int heightOnScreen;
+	Uint16 heightOnScreen;
 	double heightOnMap;
-	int* yCurrentHeight = new int[screenwidth];
 	for (int i=0;i<screenwidth;i++)
 		yCurrentHeight[i] = screenheight;
 
-	// Draw from front to back with occlusion
 	double z = 1.0;
 	double dz = 1.0;
+	// Draw from front to back with occlusion
 	while ( z < drawDistance ) {
 		// Line on map for this distance (fov of 45 degrees)
 		xr = ( fowx + fowy) * z;
@@ -128,8 +128,6 @@ void VoxelTerrain::render(WindowRenderer* renderer, const Camera* camera) const 
 		dz *= resolutionDelta;
 		z += dz;
 	}
-
-	delete[] yCurrentHeight;
 }
 
 double VoxelTerrain::getHeightAt(double x, double y) const {
