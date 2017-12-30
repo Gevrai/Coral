@@ -35,7 +35,7 @@ bool Game::init()
 	try {
 		windowRenderer = new WindowRenderer(title, WIDTH, HEIGHT);
 		voxelTerrain = new VoxelTerrain(windowRenderer, "7.png");
-		player = new Player(Vec3D(0,0,200));
+		player = new Player(PLAYER_INIT_POSITION);
 	} catch (InitializationException& e) {
 		// Abort
 		if (windowRenderer) delete windowRenderer;

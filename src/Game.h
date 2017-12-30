@@ -10,6 +10,8 @@
 #define WIDTH 800
 #define HEIGHT 600
 
+const Vec3D PLAYER_INIT_POSITION = Vec3D(0,0,200);
+
 class Game
 {
  private:
