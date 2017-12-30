@@ -1,4 +1,5 @@
-CFLAGS = -Wall -std=c++11 $(shell sdl2-config --cflags) -lSDL2_image
+CPP = g++
+CFLAGS = -Wall -std=c++11 $(shell sdl2-config --cflags)
 LDLIBS = $(shell sdl2-config --libs) -lSDL2_image
 
 SRC_PATH = Sources
@@ -12,10 +13,10 @@ OBJS := $(SRCS:.cpp=.o)
 all: $(PRGM) run
 
 $(PRGM): $(OBJS)
-	$(CXX) $(OBJS) $(LDLIBS) -o $@
+	$(CPP) $(OBJS) $(LDLIBS) -o $@
 
 %.o: %.cpp
-	$(CXX) $(CFLAGS) -c $< -o $@
+	$(CPP) $(CFLAGS) -c $< -o $@
 
 run:
 	./Coral
