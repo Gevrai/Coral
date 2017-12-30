@@ -80,3 +80,15 @@ void Player::update(double dt){
 	newposition.addInPlace(velocity * dt);
 	camera.setPos(newposition);
 }
+
+void Player::checkCollision(const VoxelTerrain* terrain) {
+
+	double terrainHeight = terrain->getHeightAt(camera.getPos().x, camera.getPos().y);
+	Vec3D pos = camera.getPos();
+
+	if (pos.z < terrainHeight + 5) {
+		pos.z = terrainHeight + 5.0;
+		camera.setPos(pos);
+	}
+
+}

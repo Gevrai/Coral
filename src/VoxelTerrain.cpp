@@ -56,19 +56,19 @@ VoxelTerrain::~VoxelTerrain()
 	delete colormap;
 }
 
-inline RGBA VoxelTerrain::colormapPixelAt(double x, double y) {
+inline RGBA VoxelTerrain::colormapPixelAt(double x, double y) const {
 	int i = (int) x; i = MOD(i, colormapW);
 	int j = (int) y; j = MOD(j, colormapH);
 	return colormap[i*colormapW + j];
 }
 
-inline Uint8 VoxelTerrain::heightmapPixelAt(double x, double y) {
+inline Uint8 VoxelTerrain::heightmapPixelAt(double x, double y) const {
 	int i = x * heightmap_scalex; i = MOD(i, heightmapW);
 	int j = y * heightmap_scaley; j = MOD(j, heightmapH);
 	return heightmap[i*heightmapW + j];
 }
 
-void VoxelTerrain::render(WindowRenderer* renderer, Camera* camera) {
+void VoxelTerrain::render(WindowRenderer* renderer, const Camera* camera) const {
 
 	// Get screen width and height
 	int screenwidth, screenheight;
@@ -81,11 +81,14 @@ void VoxelTerrain::render(WindowRenderer* renderer, Camera* camera) {
 	double fowx = camera->getFoward().x;
 	double fowy = camera->getFoward().y;
 
+	double horizon = camera->getFoward().z + screenheight/2;
+	horizon = 0;
+
 	RGBA color;
 
-	int heightOnScreen, heightOnMap;
-	double resolutionDelta = 1.007;
-	int yCurrentHeight[screenwidth];
+	int heightOnScreen;
+	double heightOnMap;
+	int* yCurrentHeight = new int[screenwidth];
 	for (int i=0;i<screenwidth;i++)
 		yCurrentHeight[i] = screenheight;
 
@@ -109,7 +112,7 @@ void VoxelTerrain::render(WindowRenderer* renderer, Camera* camera) {
 		for (int i = 0; i < screenwidth ; i++) {
 			// Get heightmap pixel
 			heightOnMap = heightmapPixelAt(xl,yl);
-			heightOnScreen = ((posz - (double) heightOnMap) / z * scaleHeight + (double) horizon);
+			heightOnScreen = ((posz - heightOnMap) / z * scaleHeight + horizon);
 			if (heightOnScreen < 0)
 				heightOnScreen = 0;
 			if (heightOnScreen < yCurrentHeight[i]) {
@@ -125,4 +128,10 @@ void VoxelTerrain::render(WindowRenderer* renderer, Camera* camera) {
 		dz *= resolutionDelta;
 		z += dz;
 	}
+
+	delete yCurrentHeight;
+}
+
+double VoxelTerrain::getHeightAt(double x, double y) const {
+	return (double) heightmapPixelAt(x,y);
 }

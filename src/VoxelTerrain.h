@@ -15,16 +15,16 @@ private:
 
 	Uint32 colormapW,colormapH, heightmapW, heightmapH;
 
-	Uint32 horizon = 100;
+	double resolutionDelta = 1.008;
 	Uint32 drawDistance = 1500;
-	double scaleHeight = 150.0;
+	double scaleHeight = 220.0;
 
 	// Resolution can be different for heightmap and colormap
 	double heightmap_scalex;
 	double heightmap_scaley;
 
-	inline RGBA colormapPixelAt(double x, double y);
-	inline Uint8 heightmapPixelAt(double x, double y);
+	inline RGBA colormapPixelAt(double x, double y) const;
+	inline Uint8 heightmapPixelAt(double x, double y) const;
 
 public:
 	VoxelTerrain(WindowRenderer* renderer, std::string mapname);
@@ -32,5 +32,7 @@ public:
 
 	bool loadMap(std::string mapname);
 
-	void render(WindowRenderer* renderer, Camera* camera);
+	double getHeightAt(double x, double j) const;
+
+	void render(WindowRenderer* renderer, const Camera* camera) const;
 };

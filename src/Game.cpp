@@ -142,6 +142,7 @@ void Game::mainLoop()
 			handleEvents();
 
 			player->update(deltaTime);
+			player->checkCollision(voxelTerrain);
 
 			renderAll();
 

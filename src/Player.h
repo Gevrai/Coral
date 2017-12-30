@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "VoxelTerrain.h"
 
 #define ACCELERATION 100.0
 
@@ -45,4 +46,5 @@ class Player {
 
 	void update(double dt);
 
+	void checkCollision(const VoxelTerrain*);
 };
