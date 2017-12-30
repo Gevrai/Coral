@@ -71,8 +71,8 @@ inline Uint8 VoxelTerrain::heightmapPixelAt(double x, double y) const {
 void VoxelTerrain::render(WindowRenderer* renderer, const Camera* camera) const {
 
 	// Get screen width and height
-	int screenwidth, screenheight;
-	SDL_RenderGetLogicalSize(renderer->getRenderer(), &screenwidth, &screenheight);
+	int screenwidth = renderer->getWindowWidth();
+	int screenheight = renderer->getWindowHeight();
 
 	double xl,yl,xr,yr,dx,dy;
 	double posx = camera->getPos().x;
@@ -129,7 +129,7 @@ void VoxelTerrain::render(WindowRenderer* renderer, const Camera* camera) const 
 		z += dz;
 	}
 
-	delete yCurrentHeight;
+	delete[] yCurrentHeight;
 }
 
 double VoxelTerrain::getHeightAt(double x, double y) const {

@@ -24,6 +24,9 @@ private:
 	SDL_Renderer* getRenderer() const;
 	SDL_Window* getWindow() const;
 
+	Uint32 getWindowHeight() const;
+	Uint32 getWindowWidth() const;
+
 	SDL_BlendMode GetBlendMode();
 	bool SetBlendMode(SDL_BlendMode mode);
 

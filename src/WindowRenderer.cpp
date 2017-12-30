@@ -27,6 +27,8 @@ WindowRenderer::~WindowRenderer()
 
 SDL_Renderer* WindowRenderer::getRenderer() const { return renderer; }
 SDL_Window* WindowRenderer::getWindow() const { return window; }
+Uint32 WindowRenderer::getWindowHeight() const { return height; }
+Uint32 WindowRenderer::getWindowWidth() const { return width; }
 
 void WindowRenderer::clear()
 {
