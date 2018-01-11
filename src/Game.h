@@ -7,8 +7,8 @@
 #include "Player.h"
 
 #define MAX_FPS 60
-#define WIDTH 800
-#define HEIGHT 600
+#define WIDTH 1024
+#define HEIGHT 768
 
 const Vec3D PLAYER_INIT_POSITION = Vec3D(0,0,200);
 

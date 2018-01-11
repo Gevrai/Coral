@@ -21,10 +21,7 @@ Vec3D Camera::getFoward() const { return foward; }
 
 void Camera::setPos(Vec3D _pos) { pos = _pos; }
 
-Camera::~Camera()
-{
-}
-
+// FIXME this is hacky af
 void Camera::rotateSideways(double ammount)
 {
 	foward.x = foward.x + ammount*foward.y;

@@ -34,7 +34,7 @@ bool Game::init()
 	// Create window renderer and terrain
 	try {
 		windowRenderer = new WindowRenderer(title, WIDTH, HEIGHT);
-		voxelTerrain = new VoxelTerrain(windowRenderer, "7.png");
+		voxelTerrain = new VoxelTerrain(windowRenderer, "SNES_Mario_Circuit_1_map.png");
 		player = new Player(PLAYER_INIT_POSITION);
 	} catch (InitializationException& e) {
 		// Abort

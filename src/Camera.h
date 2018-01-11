@@ -12,7 +12,6 @@ class Camera
  public:
 	Camera();
   Camera(Vec3D pos, Vec3D up, Vec3D foward);
-	~Camera();
 
 	Vec3D getPos() const;
 	Vec3D getUp() const;
