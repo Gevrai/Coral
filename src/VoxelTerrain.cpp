@@ -64,9 +64,15 @@ inline RGBA VoxelTerrain::colormapPixelAt(double x, double y) const {
 	return colormap[i*colormapW + j];
 }
 
-inline Uint8 VoxelTerrain::heightmapPixelAt(double x, double y) const {
+inline Uint8 VoxelTerrain::heightmapPixelAt_Wrapparound(double x, double y) const {
 	int i = x * heightmap_scalex; i = MOD(i, heightmapW);
 	int j = y * heightmap_scaley; j = MOD(j, heightmapH);
+	return heightmap[i*heightmapW + j];
+}
+
+inline int VoxelTerrain::heightmapPixelAt(double x, double y) const {
+	int i = x * heightmap_scalex; if (i >= (int) heightmapW || i < 0) return -1;
+	int j = y * heightmap_scaley; if (j >= (int) heightmapH || j < 0) return -1;
 	return heightmap[i*heightmapW + j];
 }
 
@@ -112,13 +118,21 @@ void VoxelTerrain::render(WindowRenderer* renderer, const Camera* camera) const 
 		for (int i = 0; i < screenwidth ; i++) {
 			// Get heightmap pixel
 			heightOnMap = heightmapPixelAt(xl,yl);
-			heightOnScreen = ((posz - heightOnMap) / z * scaleHeight + horizon);
-			if (heightOnScreen < 0)
-				heightOnScreen = 0;
-			if (heightOnScreen < yCurrentHeight[i]) {
-				color = colormapPixelAt(xl,yl);
-				renderer->DrawLine(color, i, heightOnScreen, i, yCurrentHeight[i]);
+			// Outside map
+			if ( heightOnMap == -1) {
+				heightOnScreen = posz / z * scaleHeight + horizon;
 				yCurrentHeight[i] = heightOnScreen;
+			}
+			// Inside map
+			else {
+				heightOnScreen = ((posz - heightOnMap) / z * scaleHeight + horizon );
+				if (heightOnScreen < 0)
+					heightOnScreen = 0;
+				if (heightOnScreen < yCurrentHeight[i]) {
+					color = colormapPixelAt(xl,yl);
+					renderer->DrawLine(color, i, heightOnScreen, i, yCurrentHeight[i]);
+					yCurrentHeight[i] = heightOnScreen;
+				}
 			}
 			xl += dx;
 			yl += dy;
