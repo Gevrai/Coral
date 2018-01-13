@@ -1,13 +1,13 @@
 #include "Player.h"
 
 Player::Player()
-	: camera(Camera(Vec3D(0,0,150), Vec3D(0,0,1), Vec3D(0,1,0)))
+	: camera(Camera(Vec3D(0,0,150), Vec3D(0,1,0), 0.0))
 	, velocity(Vec3D(0,0,0))
 	, acceleration(Vec3D(0,0,0))
 {}
 
 Player::Player(Vec3D pos)
-	: camera(Camera(pos, Vec3D(0,0,1), Vec3D(0,1,0)))
+	: camera(Camera(pos, Vec3D(0,1,0), 0.0))
 	, velocity(Vec3D(0,0,0))
 	, acceleration(Vec3D(0,0,0))
 {}
@@ -63,7 +63,7 @@ void Player::update(double dt){
 
 	// ====== ACCELERATION =======
 	acceleration = camera.getFoward() * ((double) accelerating * ACCELERATION);
-	acceleration.addInPlace(camera.getUp() * ((double) ascending * ACCELERATION));
+	acceleration.addInPlace(Vec3D(0,0,1) * ((double) ascending * ACCELERATION));
 
 	// ====== VELOCITY ======
 	velocity = velocity * std::pow(VELOCITY_DAMPING, dt);
