@@ -34,3 +34,6 @@ class InitializationException: public std::exception { };
 #define KEY_D 0x07
 #define KEY_E 0x08
 #define KEY_Q 0x14
+
+/* Print all information about a key event */
+void PrintKeyInfo( SDL_KeyboardEvent *key );
