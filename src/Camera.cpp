@@ -2,23 +2,23 @@
 
 Camera::Camera()
 	: pos(Vec3D(0,0,0))
-	, up(Vec3D(0,0,1))
 	, foward(Vec3D(1,0,0))
+	, tilt(0.0)
 {}
 
-Camera::Camera(Vec3D pos, Vec3D up, Vec3D foward)
+Camera::Camera(Vec3D pos, Vec3D foward, double tilt)
 	: pos(pos)
-	, up(up)
 	, foward(foward)
+	, tilt(tilt)
 {
-	up.normalize();
 	foward.normalize();
 }
 
 Vec3D Camera::getPos()    const { return pos; }
-Vec3D Camera::getUp()     const { return up; }
 Vec3D Camera::getFoward() const { return foward; }
+double Camera::getTilt()   const { return tilt; }
 
+void Camera::setTilt(double _tilt) { tilt = _tilt; }
 void Camera::setPos(Vec3D _pos) { pos = _pos; }
 
 // FIXME this is hacky af
